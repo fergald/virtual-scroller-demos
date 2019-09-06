@@ -3,10 +3,14 @@
   "version": "0.0.1",
   "description": "Demos using <virtual-scroller>.",
   "devDependencies": {
-    "http-server": "^0.11.1"
+    "http-server": "^0.11.1",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^6.1.0",
+    "eslint-config-google": "^0.13.0"
   },
   "scripts": {
-    "start": "http-server -p 8082"
+    "start": "http-server -p 8082",
+    "lint": "find demo -name '*.mjs' | xargs ./node_modules/.bin/eslint"
   },
   "repository": "valdrinkoshi/virtual-scroller",
   "license": "Apache-2.0"

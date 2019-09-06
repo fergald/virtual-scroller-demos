@@ -100,7 +100,7 @@ export class DemoController extends HTMLElement {
     if (this._container === null) {
       return;
     }
-    const children = this._container.children;
+    const {children} = this._container;
     while (children.length > this._count) {
       children[0].remove();
     }

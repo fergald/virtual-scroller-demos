@@ -1,8 +1,7 @@
 const emptyImg =
-    'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';  // eslint-disable-line max-len
 
 class ContactElement extends HTMLElement {
-
   constructor() {
     super();
     this._renderCount = 0;
