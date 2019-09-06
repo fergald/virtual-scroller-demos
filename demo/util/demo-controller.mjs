@@ -36,7 +36,6 @@ const TEMPLATE = `
  * div. It also displays the current count and container type.
  */
 export class DemoController extends HTMLElement {
-
   constructor() {
     super();
 
@@ -68,26 +67,26 @@ export class DemoController extends HTMLElement {
   }
 
   _setCount(count) {
-        this._count = count;
-        this._updateContainer();
-      }
+    this._count = count;
+    this._updateContainer();
+  }
 
   _getSwappedLocalName() {
-        return this._container.localName === 'div' ? 'virtual-scroller' : 'div';
-      }
+    return this._container.localName === 'div' ? 'virtual-scroller' : 'div';
+  }
 
   _updateSwapButton() {
-        this._swapButton.textContent = 'swap to ' + this._getSwappedLocalName();
-      }
+    this._swapButton.textContent = 'swap to ' + this._getSwappedLocalName();
+  }
 
   _swap() {
-        const swapTo = this._getSwappedLocalName();
-        const swapIn = document.createElement(swapTo);
-        Util.swapElement(this._container, swapIn);
-        this._container = swapIn;
-        this._updateSwapButton();
-        this._updateStatus();
-      }
+    const swapTo = this._getSwappedLocalName();
+    const swapIn = document.createElement(swapTo);
+    Util.swapElement(this._container, swapIn);
+    this._container = swapIn;
+    this._updateSwapButton();
+    this._updateStatus();
+  }
 
   _updateStatus() {
     const localName = this._container ? this._container.localName : 'None';

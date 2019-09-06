@@ -19,7 +19,6 @@ const MS_PER_SECOND = 1000;
  * Displays frames-per-second performance of the page for recent frames.
  */
 export class FpsDisplay extends HTMLElement {
-
   constructor() {
     super();
 
