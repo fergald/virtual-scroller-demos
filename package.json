@@ -1,0 +1,13 @@
+{
+  "name": "virtual-scroller-demos",
+  "version": "0.0.1",
+  "description": "Demos using <virtual-scroller>.",
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  },
+  "scripts": {
+    "start": "http-server -p 8082"
+  },
+  "repository": "valdrinkoshi/virtual-scroller",
+  "license": "Apache-2.0"
+}
