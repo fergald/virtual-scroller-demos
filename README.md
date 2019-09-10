@@ -5,9 +5,7 @@ proposed in https://github.com/WICG/virtual-scroller .
 
 ## Viewing the demos
 
-The demos are here
-
-https://fergald.github.io/virtual-scroller-demos/demo/
+The demos are [here](https://fergald.github.io/virtual-scroller-demos/demo/)
 
 and should work in any browser
 however to see the benefit of `<virtual-scroller>`,
