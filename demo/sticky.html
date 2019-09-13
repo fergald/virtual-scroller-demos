@@ -1,72 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <title>Virtual Scoller Demo - Nested sections and sticky</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <title>Virtual Scoller Demo - Nested sections and sticky</title>
 
+  <link rel="stylesheet" href="styles.css">
   <style>
-    body {
-      font-family: Roboto, Helvetica, sans-serif;
-      max-width: 600px;
-      height: 100vh;
-      margin: 0px auto;
-      display: flex;
-      flex-direction: column;
-    }
+  section > h1 {
+    font-size: 40pt;
+    position: sticky;
+    top: 0;
+    background: white;
+    opacity: 0.9;
+    z-index: 1;
+  }
 
-    scrollContainer > virtual-scroller {
-      flex: 1;
-      margin: 10px 0;
-      border-top: 2px solid #eee;
-      border-bottom: 2px solid #eee;
-    }
+  .compact contact-element {
+    height: 40px;
+    font-size: 80%;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0 !important;
+  }
 
-    contact-element {
-      contain: style layout;
-    }
-
-    contact-element,
-    button {
-      height: 80px;
-    }
-    section > h1 {
-        font-size: 40pt;
-        position: sticky;
-        top: 0;
-        background: white;
-        opacity: 0.9;
-        z-index: 1;
-    }
-
-    .compact contact-element {
-      height: 40px;
-      font-size: 80%;
-      font-weight: bold;
-      font-style: italic;
-      padding: 0 !important;
-    }
-
-    .resize {
-        animation-direction: alternate;
-        animation-duration: 1s;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-        animation-name: resize;
-        border-style: solid;
-    }
-    @keyframes resize {
-        0% { width: 50%; }
-        100% { width: 100%; }
-    }
-    .scroller {
-        overflow: scroll;
-    }
+  .perf-demo-mode {
+    animation-direction: alternate;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-name: resize;
+    border-style: solid;
+    overflow: scroll;
+  }
+  @keyframes resize {
+    0% { width: 50%; }
+    100% { width: 100%; }
+  }
   </style>
-</head>
 
-<body>
+  <script type="importmap">
+  {
+    "imports": {
+      "./std-switch-polyfill/std-switch.mjs": [
+        "std:elements/switch",
+        "./std-switch-polyfill/std-switch.mjs"
+      ]
+    }
+  }
+  </script>
+
   <confirm-features></confirm-features>
 
   <p>Demonstrates using nested <code>&lt;virtual-scroller&gt;</code>
@@ -80,11 +62,20 @@
     most of the contacts are display-locked.
   </p>
 
-  <div>
-    <button id=swapButton>switch virtual-scroller &lt;-&gt; div</button>
-    <button id=perfDemoModeButton>performance demo mode</button>
-    <button id=toggleCompactMode>Toggle Compact Mode With Prejudice</button>
-  </div>
+  <fieldset>
+    <label>
+      <std-switch id="useVirtualScroller" on></std-switch>
+      Use <code>&lt;virtual-scroller&gt;</code> instead of <code>&lt;div&gt;</code>
+    </label>
+    <label>
+      <std-switch id="perfDemoMode"></std-switch>
+      Performance demo mode
+    </label>
+    <label>
+      <std-switch id="compactMode"></std-switch>
+      Compact mode
+    </label>
+  </fieldset>
 
   <fps-display hidden></fps-display>
   <div id=scrollContainer>
@@ -92,6 +83,7 @@
   </div>
 
   <script type="module">
+    import './std-switch-polyfill/std-switch.mjs';
     import './util/confirm-features.mjs';
     import './util/fps-display.mjs';
     import './contacts/contact-element.mjs';
@@ -148,6 +140,12 @@
       return section;
     }
 
+    const useVirtualScroller = document.querySelector('#useVirtualScroller');
+    const perfDemoMode = document.querySelector('#perfDemoMode');
+    const compactMode = document.querySelector('#compactMode');
+
+    document.querySelector('confirm-features').associateSwitch(useVirtualScroller);
+
     /*
      * Swap all of the elements in scrollers from virtual-scroller to div or
      * back.
@@ -155,39 +153,29 @@
     function swapScrollers() {
       const newScrollers = [];
       for (const scroller of scrollers) {
-        const swapInLocalName = scroller.localName === 'div' ? 'virtual-scroller' : 'div';
+        const swapInLocalName = useVirtualScroller.on ? 'virtual-scroller' : 'div';
         const swapIn = document.createElement(swapInLocalName);
         util.swapElement(scroller, swapIn);
         newScrollers.push(swapIn);
       }
       scrollers = newScrollers;
     }
-    document.querySelector('#swapButton')
-        .addEventListener('click', swapScrollers);
-
-    let isInperfDemoMode = false;
+    useVirtualScroller.addEventListener('change', swapScrollers);
 
     /**
      * Swaps between performance demo mode and not. In this mode we
      * show the FPS and we do an animated resize of the contacts list.
      */
     function togglePerfDemoMode() {
-      isInperfDemoMode = !isInperfDemoMode;
       document.querySelector('fps-display').toggleAttribute(
-        "hidden", !isInperfDemoMode);
-      document.querySelector('#scrollContainer').className =
-        isInperfDemoMode ? "scroller resize" : ""
+        'hidden', !perfDemoMode.on);
+      document.querySelector('#scrollContainer').classList.toggle(
+        'perf-demo-mode', perfDemoMode.on);
     }
-    document.querySelector('#perfDemoModeButton')
-        .addEventListener('click', togglePerfDemoMode);
+    perfDemoMode.addEventListener('change', togglePerfDemoMode);
 
     function toggleCompactMode() {
-      document.body.classList.toggle('compact');
+      document.body.classList.toggle('compact', compactMode.on);
     }
-    document.querySelector('#toggleCompactMode')
-        .addEventListener('click', toggleCompactMode);
-
+    compactMode.addEventListener('change', toggleCompactMode);
   </script>
-</body>
-
-</html>
