@@ -24,6 +24,18 @@ class ConfirmFeatures extends HTMLElement {
       });
     }
   }
+
+  associateSwitch(switchElement) {
+    const hasVirtualScroller = customElements.get('virtual-scroller');
+
+    switchElement.disabled = !hasVirtualScroller;
+    switchElement.on = hasVirtualScroller;
+
+    customElements.whenDefined('virtual-scroller').then(() => {
+      switchElement.disabled = false;
+      switchElement.on = true;
+    });
+  }
 }
 
 customElements.define('confirm-features', ConfirmFeatures);
