@@ -12,8 +12,12 @@ function redP(textContent) {
 class ConfirmFeatures extends HTMLElement {
   constructor() {
     super();
-    if (this.displayLock === undefined) {
-      this.appendChild(redP('Display Locking is not available'));
+    if (this.renderSubtree === undefined) {
+      this.appendChild(redP('renderSubtree is not available'));
+    }
+
+    if (this.style.intrinsicSize === undefined) {
+      this.appendChild(redP('intrinsicSize is not available'));
     }
 
     if (!customElements.get('virtual-scroller')) {

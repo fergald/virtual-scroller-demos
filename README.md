@@ -12,5 +12,5 @@ you will need a browser which supports it.
 
 ### Chrome
 
-Launch chrome with flags `--enable-blink-features=DisplayLocking,BuiltInModuleAll`
+Launch chrome with flags `--enable-blink-features=DisplayLocking,BuiltInModuleAll,CSSContentSize`
 to get a working `<virtual-scroller>` element.
